@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block content %}
+  <h1 class="text-center">UPDATE</h1>
+  <form class="my-5 mx-auto" action="" method="POST" style="max-width: 30rem;">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <input type="submit">
+  </form>
+  <hr>
+  <a href="{% url 'community:detail' article.pk %}">[back]</a>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %} 
+{% block content %}
+<div class='container text-center' >
+
+  <form action="{% url 'movies:movie_mbti_search' %}" method='GET'>
+    {% csrf_token %}
+    <h1> 주정부리식 MBTI </h1>
+    <hr>
+    
+    <input type="radio" id="first" name="first_value" value="짜장"/>
+    <label for="first">짜장</label> vs 
+    <input type="radio" id="first" name="first_value" value="짬뽕"/>
+    <label for="first">짬뽕</label>
+    <hr>
+    <input type="radio" id="second" name="second_value" value="부먹"/>
+    <label for="second">부먹</label> vs 
+    <input type="radio" id="second" name="second_value" value="찍먹"/>
+    <label for="second">찍먹</label>
+      <hr>
+      <input type="radio" id="third" name="third_value" value="물냉"/>
+      <label for="third">물냉</label> vs 
+      <input type="radio" id="third" name="third_value" value="비냉"/>
+      <label for="third">비냉</label>
+      <hr>
+      <input type="radio" id="fourth" name="fourth_value" value="밀떡"/>
+      <label for="fourth">밀떡</label> vs 
+      <input type="radio" id="fourth" name="fourth_value" value="쌀떡"/>
+      <label for="fourth">쌀떡</label>
+      <br><br>
+      <button type="submit" class='btn btn-warning'>제출</button>
+    </form>
+
+  </div>
+    {% endblock %}

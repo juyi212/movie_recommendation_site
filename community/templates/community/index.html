@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% comment %} 
+{% load bootstrap4 %}
+{% load bootstrap_pagination %} {% endcomment %}
+
+{% block content %}
+
+
+  <h1 class='jemok'><strong>커뮤니티</strong> </h1>
+  {% if user.is_authenticated %}
+  {% else %}
+  <a href="{% url 'accounts:login' %}">[새 글을 작성하려면 로그인하세요]</a>
+  {% endif %}
+  
+  <div class="w-100 my-5" style="background-color: rgb(56, 56, 114); border-radius: 20px;"> 
+    <div class="w-100 btn-group btn-group-sm overflow-auto" role="group">
+      <button id="btn-0" class="btn btn-outline-light my-2 my-sm-0"
+      onclick="location.href='{% url 'community:index' %}'">전체게시판</button>
+      <button id="btn-1" class="btn btn-outline-light my-2 my-sm-0"
+      onclick="location.href='{% url 'community:pur_index' 1 %}'">자유게시판</button>
+      <button id="btn-2" class="btn btn-outline-light my-2 my-sm-0"
+      onclick="location.href='{% url 'community:pur_index' 2 %}'">추천게시판</button>
+      <button id="btn-3" class="btn btn-outline-light my-2 my-sm-0"
+      onclick="location.href='{% url 'community:pur_index' 3 %}'">건의게시판</button>
+    </div>
+  </div>
+  
+  
+  <table class="table">
+    <thead class="col-12 thead">
+      <tr class="row w-100 m-0" style="background-color: rgb(56, 56, 114); color:white">
+        <th class="col-1 text-center p-1">#</th>
+        <th class="col-7 col-md-8 p-1">제목</th>
+        <th class="col-4 col-md-3 p-1 text-center">작성자</th>
+      </tr>
+    </thead>
+    <tbody class="col-12">
+      {% for article in page_obj %}
+      <tr class="row m-0" onclick="location.href='{% url 'community:detail' article.pk %}'" style="cursor:pointer;">
+        <th class="col-1 p-1 text-center">{{ article.pk }}</th>
+        <td class="col-7 col-md-8 p-1 text-truncate" colspan="2">{{ article.title }} ({{ article.comment_set.all|length }})</td>
+        <td class="col-4 col-md-3 p-1 text-center text-truncate">{{ article.user }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <hr>
+  <a href="{% url 'community:create' %}" class=" new btn btn-outline-dark">새글작성</a>
+
+  </div>
+  
+
+<style>
+  .jemok {
+    text-align: center;
+  }
+  .new { 
+    position: absolute;
+    right: 200px;
+  }
+</style>
+
+
+{% endblock %}

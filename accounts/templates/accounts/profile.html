@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+<div class="jumbotron">
+  <h1 class="text-center"><strong>{{ person.username }}님의 프로필</strong></h1>
+  <img class="img " src="{% static '/ssunho.jpg'%}" class="rounded float-left">
+  <hr>
+  <h2>{{ person.username }}가 좋아요한 영화</h2>
+  <h4 style="opacity: 0.9;"> {{ person.like_movies.all|length }} 편 </h4>
+  <hr>
+  {% for movie in person.like_movies.all %}
+    <br>
+    <a href="{% url "movies:movie_detail" movie.pk%}" style="color:black"><strong>{{ movie.title }}</strong></a>
+    <br>
+  {% empty%}
+    <div><strong>좋아요한 영화가 없습니다.</strong> </div>
+  {% endfor %}
+ 
+  <hr>
+  <h2>{{ person.username }}가 리뷰한 영화</h2>
+  <h4 style="opacity: 0.9;">{{ person.review_set.all|length }} 편</h4>
+  <hr>
+  {% for review in person.review_set.all %}
+    <br>
+    <div><strong>{{ review.movie.title }}</strong></div>
+  {% empty%}
+    <div><strong>리뷰한 영화가 없습니다.</strong> </div>
+  {% endfor %}
+
+  <hr>
+
+</div>
+
+<hr>
+<div class="jumbotron">
+  <h1 class="text-center"><strong>커뮤니티 활동</strong></h1>
+  <hr>
+  <h2>{{ person.username }}이 작성한 게시글</h2>
+  {% for article in person.article_set.all %}
+    <div>{{ article.title }}</div>
+  {% empty %}
+    <div> 작성한 글이 없습니다. </div>
+  {% endfor %}
+  <hr>
+
+
+  <h2>{{ person.username }}이 작성한 댓글</h2>
+  {% for comment in person.comment_set.all %}
+    <div>{{  comment.content }}</div>
+    {% empty %}
+    <div> 작성한 댓글이 없습니다. </div>
+  {% endfor %}
+</div>
+<a href="{% url 'community:index' %}">back</a>
+
+<hr>
+
+<style>
+  .img {
+  border-radius: 50%;
+  width: 150px;
+}
+</style>
+{% endblock  %}

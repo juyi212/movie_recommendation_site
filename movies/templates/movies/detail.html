@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block content %}
+
+
+<div class='container m-0 p-0'>
+  <div class='row d-flex justify-content-between'>
+    <div class='pl-3 col-12 col-md-3'>
+      <img id='img' src='https://image.tmdb.org/t/p/w200/{{movie.poster_path}}' class="card-img-top poster-img" style="width:130%;"alt="">
+    </div>
+  <div class="embed-responsive embed-responsive-16by9 d-flex justify-content-between mx-0" style="width:750px;">
+    <iframe   
+      class="embed-responsive-item"
+      src='{{ video }}'
+      frameborder="0" 
+      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+      allowfullscreen
+    ></iframe>
+  </div>
+</div>
+
+  <div class="jumbotron jumbotron-fluid p-0 m-0">
+    <div class='col-md-9'>
+      <br>
+      <h1>{{movie.title}}</h1>
+      <h5> 
+        장르: {% for gen in genre_name %}
+        {{gen}}
+        {% endfor %}
+      </h5>
+      <h5>{{movie.release_date}} 개봉 </h5>
+      <h5> <i class="fas fa-star" style="color: yellow;"></i>  {{movie.vote_average}}</h5>
+      
+      <h5>{{movie.overview|truncatechars:200}}</h5>
+      <h5>언어: {{movie.original_language}}</h5>
+    </div>
+    <br><hr>
+    {% if request.user.is_authenticated %}
+    <div class='container'>
+      <h3><strong>리뷰작성</strong></h3>
+
+      <form action="{% url 'movies:review_create' movie.pk %}" method="POST" >
+        {% csrf_token %}
+        {% bootstrap_form review_form %}
+        <input type='submit' class='btn btn-warning d-flex' style='color: white; font-weight: bold;'>
+      </input>
+    </form>
+    {% else %}
+    <a href="{% url 'accounts:login' %}">[댓글을 작성하려면 로그인하세요.]</a>
+    {% endif %}
+    <br>
+    <a href="{% url 'movies:movie_list' %}"><i class="fas fa-arrow-left" style="font-size: 30px; color:black;" ></i></a>
+    </div>
+  </div>
+  </div>
+  <br>
+  <table class="table table-striped table-dark">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">리뷰</th>
+        <th scope="col">평점</th>
+        <th scope="col">작성자</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for review in reviews%}
+      <tr>
+        <th scope="row">{{forloop.revcounter}}</th>
+        <td>{{review.content}}</td>
+        <td>
+        {% for star in N %}
+          {% if forloop.counter <= review.star %}
+          <i class="fas fa-star" style="color:crimson"></i>
+          {% else %}
+          <i class="fas fa-star" style="color:darkgray"></i>
+          {% endif %}
+        {% endfor %}
+      </td>
+      <td>{{ review.user }}&nbsp;&nbsp;&nbsp;&nbsp;
+        {% if request.user == review.user %}
+        <form action="{% url 'movies:reviews_delete' movie.pk review.pk%}" method="POST" class='d-inline'>
+          {% csrf_token %}
+          <input type="submit" value='x' class='btn btn-danger'>
+        </form>
+        {% endif %}
+
+      </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+
+
+
+
+</div>
+<style>
+  div > h1{
+    {% comment %} color: white; {% endcomment %}
+    font-weight: 600;
+  }
+  h5{
+    {% comment %} color:whitesmoke; {% endcomment %}
+    font-weight: 600;
+  }
+  form {
+    {% comment %} color: white; {% endcomment %}
+  }
+</style>
+{% endblock %}

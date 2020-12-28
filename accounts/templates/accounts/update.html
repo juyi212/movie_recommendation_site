@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %} 
+{% block content %}
+<form class="my-5 mx-auto" action="" method="POST" style="max-width: 30rem;">
+  <h1>회원정보 수정</h1>
+  {% csrf_token %}
+  {% bootstrap_form form %}
+  <input type='submit' class='btn btn-warning' value='수정' style='color: white; font-weight: bold;'>
+</form>
+<style>
+</style>
+{% endblock %}

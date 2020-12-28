@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block content %}
+  <h1 class="text-center">CREATE</h1>
+  <form class="my-5 mx-auto" action="" method="POST" style="max-width: 30rem;">
+    {% csrf_token %}
+    <table>
+      {% bootstrap_form form %}
+    </table>
+    <input type="submit" class='btn btn-warning' style="color: white;">
+  </form>
+  <hr>
+  <a href="{% url 'community:index' %}" style="color: black;">[back]</a>
+
+{% endblock %}
